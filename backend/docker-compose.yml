@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: caseflow-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: caseflow
+      POSTGRES_USER: caseflow
+      POSTGRES_PASSWORD: caseflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - caseflow_postgres:/var/lib/postgresql/data
+
+  neo4j:
+    image: neo4j:5-community
+    container_name: caseflow-neo4j
+    restart: unless-stopped
+    environment:
+      NEO4J_AUTH: neo4j/caseflow123
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - caseflow_neo4j_data:/data
+      - caseflow_neo4j_logs:/logs
+
+volumes:
+  caseflow_postgres:
+  caseflow_neo4j_data:
+  caseflow_neo4j_logs:
